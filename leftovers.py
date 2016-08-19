@@ -7,10 +7,11 @@ class Course(object):
     """
     Represents a course that a student might take.
     """
-    def __init__(self, name: str):
+    def __init__(self, name: str, hours: int=3):
         self.name = name
+        self.hours = hours
 
-    def __eq__(self, other: 'Course'):
+    def __eq__(self, other: 'Course') -> bool:
         return (isinstance(self, Course) and 
                 isinstance(other, Course) and self.name == other.name)
 
@@ -20,7 +21,8 @@ class Course(object):
 class Requirement(object):
     def __init__(self, 
             items: Iterable[Union['Requirement', Course]],
-            num: int):
+            num: int,
+            additional_hours: int=0):
         """
         A requirement represents something that must be completed.
 
@@ -31,9 +33,10 @@ class Requirement(object):
         self.children = [r for r in items if isinstance(r, Requirement)]
         self.completed = set()  # completed courses
         self.num = num
+        self.additional_hours = additional_hours
 
     @property
-    def satisfied(self):
+    def satisfied(self) -> bool:
         return (len(self.completed & self.courses) + 
                 sum(1 for x in self.children if x.satisfied)) >= self.num
 
