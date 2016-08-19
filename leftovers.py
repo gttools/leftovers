@@ -24,7 +24,7 @@ class Requirement(object):
         """
         A requirement represents something that must be completed.
 
-        `num` represents the number of the children that must be completed for
+        `num` represents the number of children that must be completed for
         the requirement to be satisfied.
         """
         self.courses = frozenset(c for c in items if isinstance(c, Course))
